@@ -189,34 +189,43 @@ export default function walkPath(filename: string): {
 } {
   const pathMap = loadMap(filename);
   const startingPoint = findStartingPoint(pathMap);
-  const visitedPoints: Point[] = [];
 
-  const letters: string[] = [];
-  const path: string[] = [PathChar.Start];
+  const traverse = (
+    currentPoint: Point,
+    visitedPoints: Point[]
+  ): { letters: string[]; path: string[] } => {
+    const { value: nextVal, point: nextPoint } = findNext(
+      pathMap,
+      currentPoint,
+      visitedPoints
+    );
 
-  let { value: nextVal, point: nextPoint } = findNext(
-    pathMap,
-    startingPoint,
-    visitedPoints
-  );
-
-  visitedPoints.push(startingPoint);
-
-  while (nextVal !== PathChar.End) {
-    if (isLetter(nextVal) && !isPointVisited(visitedPoints, nextPoint)) {
-      letters.push(nextVal);
+    if (nextVal === PathChar.End) {
+      return {
+        letters: [],
+        path: [PathChar.End]
+      };
     }
-    path.push(nextVal);
-    const next = findNext(pathMap, nextPoint, visitedPoints);
-    visitedPoints.push(nextPoint);
-    nextVal = next.value;
-    nextPoint = next.point;
-  }
 
-  path.push(PathChar.End);
+    const newVisitedPoints = [...visitedPoints, currentPoint];
+    const { letters, path } = traverse(nextPoint, newVisitedPoints);
+
+    const newLetters =
+      isLetter(nextVal) && !isPointVisited(visitedPoints, nextPoint)
+        ? [nextVal, ...letters]
+        : letters;
+    const newPath = [nextVal, ...path];
+
+    return {
+      letters: newLetters,
+      path: newPath
+    };
+  };
+
+  const { letters, path } = traverse(startingPoint, []);
 
   return {
     letters: letters.join(""),
-    path: path.join("")
+    path: [PathChar.Start, ...path].join("")
   };
 }
