@@ -89,11 +89,13 @@ export const isIntersection = (pathMap: string[][], point: Point) => {
   const sides = getSides(pathMap, point);
   const val = pathMap[point.y][point.x];
   return (
-    (val === "-" || val === "|" || isLetter(val)) &&
-    sides["top"] === "|" &&
-    sides["bottom"] === "|" &&
-    sides["left"] === "-" &&
-    sides["right"] === "-"
+    (val === PathChar.Horizontal ||
+      val === PathChar.Vertical ||
+      isLetter(val)) &&
+    sides["top"] === PathChar.Vertical &&
+    sides["bottom"] === PathChar.Vertical &&
+    sides["left"] === PathChar.Horizontal &&
+    sides["right"] === PathChar.Horizontal
   );
 };
 
