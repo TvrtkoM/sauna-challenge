@@ -1,3 +1,4 @@
+import { AppError } from "./constants";
 import { Direction } from "./types";
 import walkPath, {
   getFromDirection,
@@ -48,37 +49,37 @@ describe("walkPath", () => {
     expect(path).toBe("@--A|C|+---+|+-B-x");
   });
   it("has missing start character on example 7", () => {
-    expect(() => walkPath("example7.txt")).toThrow("No starting point found");
+    expect(() => walkPath("example7.txt")).toThrow(AppError.NO_STARTING_POINT);
   });
   it("has missing end character on example 8", () => {
-    expect(() => walkPath("example8.txt")).toThrow("No end found");
+    expect(() => walkPath("example8.txt")).toThrow(AppError.NO_END);
   });
   it("has multiple starting points in example 9", () => {
     expect(() => walkPath("example9.txt")).toThrow(
-      "Multiple starting points found"
+      AppError.MULTIPLE_STARTING_POINTS
     );
   });
   it("has multiple starting points in example 10", () => {
     expect(() => walkPath("example10.txt")).toThrow(
-      "Multiple starting points found"
+      AppError.MULTIPLE_STARTING_POINTS
     );
   });
   it("has multiple starting points in example 11", () => {
     expect(() => walkPath("example11.txt")).toThrow(
-      "Multiple starting points found"
+      AppError.MULTIPLE_STARTING_POINTS
     );
   });
   it("has fork in path in example 12", () => {
-    expect(() => walkPath("example12.txt")).toThrow("Multiple sides");
+    expect(() => walkPath("example12.txt")).toThrow(AppError.MULTIPLE_SIDES);
   });
   it("has broken path in example 13", () => {
-    expect(() => walkPath("example13.txt")).toThrow("No side");
+    expect(() => walkPath("example13.txt")).toThrow(AppError.NO_SIDE);
   });
   it("has multiple starting directions in example 14", () => {
-    expect(() => walkPath("example14.txt")).toThrow("Multiple sides");
+    expect(() => walkPath("example14.txt")).toThrow(AppError.MULTIPLE_SIDES);
   });
   it("has fake turn in example 15", () => {
-    expect(() => walkPath("example15.txt")).toThrow("Fake turn");
+    expect(() => walkPath("example15.txt")).toThrow(AppError.FAKE_TURN);
   });
 });
 

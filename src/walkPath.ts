@@ -1,3 +1,4 @@
+import { AppError } from "./constants";
 import findStartingPoint from "./findStartingPoint";
 import loadMap from "./loadMap";
 import { Direction, isPathChar, PathChar, Point } from "./types";
@@ -163,10 +164,10 @@ const findNext = (
   }
 
   if (validSides.length === 0) {
-    throw new Error("No side");
+    throw new Error(AppError.NO_SIDE);
   }
   if (validSides.length !== 1) {
-    throw new Error("Multiple sides");
+    throw new Error(AppError.MULTIPLE_SIDES);
   }
   const validSide = validSides[0];
 
@@ -175,7 +176,7 @@ const findNext = (
     fromDirection &&
     getOppositeDirection(fromDirection) === validSide
   ) {
-    throw Error("Fake turn");
+    throw Error(AppError.FAKE_TURN);
   }
 
   const nextPoint = getNextPoint(currPoint, validSide as Direction);

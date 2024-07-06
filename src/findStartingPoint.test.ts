@@ -1,3 +1,4 @@
+import { AppError } from "./constants";
 import findStartingPoint from "./findStartingPoint";
 
 describe("findStartingPoint", () => {
@@ -22,7 +23,7 @@ describe("findStartingPoint", () => {
       [" ", "@", "+"]
     ];
     expect(() => findStartingPoint(testPath)).toThrow(
-      "Multiple starting points found"
+      AppError.MULTIPLE_STARTING_POINTS
     );
   });
 
@@ -34,7 +35,7 @@ describe("findStartingPoint", () => {
       [" ", "-", "+"]
     ];
     expect(() => findStartingPoint(testPath)).toThrow(
-      "No starting point found"
+      AppError.NO_STARTING_POINT
     );
   });
 });

@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import checkValidCharsInLine from "./util/checkValidCharsInLine";
+import { AppError } from "./constants";
 
 const cwd = path.resolve(__dirname);
 
@@ -11,7 +12,7 @@ export default function loadMap(fileName: string): string[][] {
   );
   const hasEnd = Boolean(file.includes("x"));
   if (!hasEnd) {
-    throw Error("No end found");
+    throw Error(AppError.NO_END);
   }
   const lines = file.split(/\r?\n/).map((l) => l.trimEnd());
   const pathMap = [];
@@ -19,7 +20,7 @@ export default function loadMap(fileName: string): string[][] {
 
   for (const line of lines) {
     if (line && !checkValidCharsInLine(line)) {
-      throw Error("Invalid character found in given map file " + fileName);
+      throw Error(AppError.INVALID_CHARACTER_FOUND + fileName);
     }
 
     pathMap[row] = line.split("");

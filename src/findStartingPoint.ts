@@ -1,3 +1,4 @@
+import { AppError } from "./constants";
 import { PathChar, Point } from "./types";
 
 export default function findStartingPoint(pathMap: string[][]): Point {
@@ -14,11 +15,11 @@ export default function findStartingPoint(pathMap: string[][]): Point {
   }
 
   if (startingPoint === undefined) {
-    throw Error("No starting point found");
+    throw Error(AppError.NO_STARTING_POINT);
   }
 
   if (numStarting > 1) {
-    throw Error("Multiple starting points found");
+    throw Error(AppError.MULTIPLE_STARTING_POINTS);
   }
 
   return startingPoint;
